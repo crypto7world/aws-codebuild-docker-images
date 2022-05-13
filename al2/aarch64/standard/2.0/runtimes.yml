@@ -56,6 +56,26 @@ runtimes:
       1.14:
         commands:
           - echo "Installing Go version 1.14 ..."
+          - rm -rf /usr/local/go
+          - ln -s /usr/local/go14 /usr/local/go
+      1.15:
+        commands:
+          - echo "Installing Go version 1.15 ..."
+          - rm -rf /usr/local/go
+          - ln -s /usr/local/go15 /usr/local/go
+      1.16:
+        commands:
+          - echo "Installing Go version 1.16 ..."
+          - rm -rf /usr/local/go
+          - ln -s /usr/local/go16 /usr/local/go
+      1.17:
+        commands:
+          - echo "Installing Go version 1.17 ..."
+          - rm -rf /usr/local/go
+          - ln -s /usr/local/go17 /usr/local/go
+      1.18:
+        commands:
+          - echo "Installing Go version 1.18 ..."
   python:
     versions:
       3.9:

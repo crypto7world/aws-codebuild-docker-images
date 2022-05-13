@@ -283,22 +283,66 @@ ENV GOPATH="/go" \
     DEP_VERSION="0.5.4" \
     DEP_BINARY="dep-linux-arm64"
 
-ENV GOLANG_14_VERSION="1.14.7"
-ENV GOLANG_14_DOWNLOAD_SHA256="fe5b6f6e441f3cb7b53ebf1a010bbebcb720ac98124984cfe2e51d72b8a58c71"
+ENV GOLANG_18_VERSION="1.18.2"
+ENV GOLANG_18_DOWNLOAD_SHA256="fc4ad28d0501eaa9c9d6190de3888c9d44d8b5fb02183ce4ae93713f67b8a35b"
 
 RUN set -ex \
     && mkdir -p "$GOPATH/src" "$GOPATH/bin" \
     && chmod -R 777 "$GOPATH" \
-    && wget -q "https://dl.google.com/go/go$GOLANG_14_VERSION.linux-arm64.tar.gz" -O /tmp/golang.tar.gz \
-    && echo "$GOLANG_14_DOWNLOAD_SHA256 /tmp/golang.tar.gz" | sha256sum -c - \
+    && wget -q "https://dl.google.com/go/go$GOLANG_18_VERSION.linux-arm64.tar.gz" -O /tmp/golang.tar.gz \
+    && echo "$GOLANG_18_DOWNLOAD_SHA256 /tmp/golang.tar.gz" | sha256sum -c - \
     && tar -xzf /tmp/golang.tar.gz -C /tmp \
-    && mv /tmp/go /usr/local/go14  \
+    && mv /tmp/go /usr/local/go18  \
     && rm -fr /tmp/* /var/tmp/* \
     && wget -q "https://github.com/golang/dep/releases/download/v$DEP_VERSION/$DEP_BINARY" -O "$GOPATH/bin/dep" \
     && chmod +x "$GOPATH/bin/dep"
 
-RUN ln -s /usr/local/go14 /usr/local/go
+RUN ln -s /usr/local/go18 /usr/local/go
 ENV PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
+
+#****************     GO 1.17   **********************************************************
+ENV GOLANG_17_VERSION="1.17.9"
+ENV GOLANG_17_DOWNLOAD_SHA256="44dcdcd4f0fa6f83c15ef70b31580f1e3f95895c2f11a00e36c440c3554b6ad5"
+
+RUN set -ex \
+    && wget -q "https://dl.google.com/go/go$GOLANG_17_VERSION.linux-arm64.tar.gz" -O /tmp/golang.tar.gz \
+    && echo "$GOLANG_17_DOWNLOAD_SHA256 /tmp/golang.tar.gz" | sha256sum -c - \
+    && tar -xzf /tmp/golang.tar.gz -C /tmp \
+    && mv /tmp/go /usr/local/go17  \
+    && rm -fr /tmp/* /var/tmp/*
+
+#****************     GO 1.16   **********************************************************
+ENV GOLANG_16_VERSION="1.16.15"
+ENV GOLANG_16_DOWNLOAD_SHA256="c2f27f0ce5620a9bc2ff3446165d1974ef94e9b885ec12dbfa3c07e0e198b7ce"
+
+RUN set -ex \
+    && wget -q "https://dl.google.com/go/go$GOLANG_16_VERSION.linux-arm64.tar.gz" -O /tmp/golang.tar.gz \
+    && echo "$GOLANG_16_DOWNLOAD_SHA256 /tmp/golang.tar.gz" | sha256sum -c - \
+    && tar -xzf /tmp/golang.tar.gz -C /tmp \
+    && mv /tmp/go /usr/local/go16  \
+    && rm -fr /tmp/* /var/tmp/*
+
+#****************     GO 1.15   **********************************************************
+ENV GOLANG_15_VERSION="1.15.15"
+ENV GOLANG_15_DOWNLOAD_SHA256="714abb01af210473dd6af331094ad6847162eff81a7fc7241d24f5a85496c9fa"
+
+RUN set -ex \
+    && wget -q "https://dl.google.com/go/go$GOLANG_15_VERSION.linux-arm64.tar.gz" -O /tmp/golang.tar.gz \
+    && echo "$GOLANG_15_DOWNLOAD_SHA256 /tmp/golang.tar.gz" | sha256sum -c - \
+    && tar -xzf /tmp/golang.tar.gz -C /tmp \
+    && mv /tmp/go /usr/local/go15  \
+    && rm -fr /tmp/* /var/tmp/*
+
+#****************     GO 1.14   **********************************************************
+ENV GOLANG_14_VERSION="1.14.7"
+ENV GOLANG_14_DOWNLOAD_SHA256="fe5b6f6e441f3cb7b53ebf1a010bbebcb720ac98124984cfe2e51d72b8a58c71"
+
+RUN set -ex \
+    && wget -q "https://dl.google.com/go/go$GOLANG_14_VERSION.linux-arm64.tar.gz" -O /tmp/golang.tar.gz \
+    && echo "$GOLANG_14_DOWNLOAD_SHA256 /tmp/golang.tar.gz" | sha256sum -c - \
+    && tar -xzf /tmp/golang.tar.gz -C /tmp \
+    && mv /tmp/go /usr/local/go14  \
+    && rm -fr /tmp/* /var/tmp/*
 
 #****************     GO 1.13   **********************************************************
 
@@ -437,4 +481,3 @@ COPY amazon-ssm-agent.json          /etc/amazon/ssm/
 ENTRYPOINT ["dockerd-entrypoint.sh"]
 
 #=======================End of layer: aarch64_v2  =================
-

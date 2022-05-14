@@ -1,0 +1,52 @@
+version: 0.1
+
+runtimes:
+  golang:
+    versions:
+      1.16:
+        commands:
+          - echo "Installing Go version 1.16 ..."
+          - rm -rf /usr/local/go
+          - ln -s /usr/local/go16 /usr/local/go
+      1.17:
+        commands:
+          - echo "Installing Go version 1.17 ..."
+          - rm -rf /usr/local/go
+          - ln -s /usr/local/go17 /usr/local/go
+      1.18:
+        commands:
+          - echo "Installing Go version 1.18 ..."
+  python:
+    versions:
+      3.9:
+        commands:
+          - echo "Installing Python version 3.9 ..."
+          - pyenv global  $PYTHON_39_VERSION
+      3.8:
+        commands:
+          - echo "Installing Python version 3.8 ..."
+          - pyenv global  $PYTHON_38_VERSION
+      3.7:
+        commands:
+          - echo "Installing Python version 3.7 ..."
+          - pyenv global  $PYTHON_37_VERSION
+  nodejs:
+    versions:
+      10:
+        commands:
+          - echo "Installing Node.js version 10 ..."
+          - n $NODE_10_VERSION
+      12:
+        commands:
+          - echo "Installing Node.js version 12 ..."
+          - n $NODE_12_VERSION
+  docker:
+    versions:
+      19:
+        commands:
+          - echo "Using Docker 19"
+  rust:
+    versions:
+      1.60:
+        commands:
+          - echo "Using Rust 1.60"

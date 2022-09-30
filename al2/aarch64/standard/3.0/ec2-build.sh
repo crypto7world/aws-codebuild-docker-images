@@ -21,5 +21,10 @@ fi
 
 cd /home/ec2-user
 sudo -u ec2-user git clone https://github.com/crypto7world/aws-codebuild-docker-images.git
-cd aws-codebuild-docker-images/al2/aarch64/standard/2.0/
+cd aws-codebuild-docker-images/al2/aarch64/standard/3.0/
 sudo -u ec2-user docker build -t crypto7/codebuild/amazonlinux2-aarch64-standard:3.0 .
+
+# Login ECR
+aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/crypto7
+docker tag crypto7/codebuild/amazonlinux2-aarch64-standard:3.0 public.ecr.aws/crypto7/codebuild/amazonlinux2-aarch64-standard:3.0
+docker push public.ecr.aws/crypto7/codebuild/amazonlinux2-aarch64-standard:3.0

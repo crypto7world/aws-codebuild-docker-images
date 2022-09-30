@@ -3,19 +3,14 @@ version: 0.1
 runtimes:
   golang:
     versions:
-      1.16:
-        commands:
-          - echo "Installing Go version 1.16 ..."
-          - rm -rf /usr/local/go
-          - ln -s /usr/local/go16 /usr/local/go
-      1.17:
-        commands:
-          - echo "Installing Go version 1.17 ..."
-          - rm -rf /usr/local/go
-          - ln -s /usr/local/go17 /usr/local/go
       1.18:
         commands:
           - echo "Installing Go version 1.18 ..."
+          - rm -f /usr/local/go
+          - ln -s /usr/local/go18 /usr/local/go
+      1.19:
+        commands:
+          - echo "Installing Go version 1.19 ..."
   python:
     versions:
       3.9:
@@ -47,16 +42,16 @@ runtimes:
           - echo "Using Docker 19"
   rust:
     versions:
-      1.60:
-        commands:
-          - echo "Installing Rust version 1.60 ..."
-          - rm -rf /usr/local/rust
-          - ln -s /usr/local/rust60 /usr/local/rust
-      1.61:
-        commands:
-          - echo "Installing Rust version 1.61 ..."
-          - rm -rf /usr/local/rust
-          - ln -s /usr/local/rust61 /usr/local/rust
       1.62:
         commands:
           - echo "Installing Rust version 1.62 ..."
+          - rm -f /usr/local/rust
+          - ln -s /usr/local/rust62 /usr/local/rust
+      1.63:
+        commands:
+          - echo "Installing Rust version 1.63 ..."
+          - rm -f /usr/local/rust
+          - ln -s /usr/local/rust63 /usr/local/rust
+      1.64:
+        commands:
+          - echo "Installing Rust version 1.64 ..."

@@ -150,48 +150,63 @@ ENV GOPATH="/go" \
     DEP_VERSION="0.5.4" \
     DEP_BINARY="dep-linux-arm64"
 
-ENV GOLANG_18_VERSION="1.18.2"
-ENV GOLANG_18_DOWNLOAD_SHA256="fc4ad28d0501eaa9c9d6190de3888c9d44d8b5fb02183ce4ae93713f67b8a35b"
+ENV GOLANG_19_VERSION="1.19.1"
+ENV GOLANG_19_DOWNLOAD_SHA256="49960821948b9c6b14041430890eccee58c76b52e2dbaafce971c3c38d43df9f"
 
 RUN set -ex \
     && mkdir -p "$GOPATH/src" "$GOPATH/bin" \
     && chmod -R 777 "$GOPATH" \
-    && wget -q "https://dl.google.com/go/go$GOLANG_18_VERSION.linux-arm64.tar.gz" -O /tmp/golang.tar.gz \
-    && echo "$GOLANG_18_DOWNLOAD_SHA256 /tmp/golang.tar.gz" | sha256sum -c - \
+    && wget -q "https://dl.google.com/go/go$GOLANG_19_VERSION.linux-arm64.tar.gz" -O /tmp/golang.tar.gz \
+    && echo "$GOLANG_19_DOWNLOAD_SHA256 /tmp/golang.tar.gz" | sha256sum -c - \
     && tar -xzf /tmp/golang.tar.gz -C /tmp \
-    && mv /tmp/go /usr/local/go18  \
+    && mv /tmp/go /usr/local/go19  \
     && rm -fr /tmp/* /var/tmp/* \
     && wget -q "https://github.com/golang/dep/releases/download/v$DEP_VERSION/$DEP_BINARY" -O "$GOPATH/bin/dep" \
     && chmod +x "$GOPATH/bin/dep"
 
-RUN ln -s /usr/local/go18 /usr/local/go
+RUN ln -s /usr/local/go19 /usr/local/go
 ENV PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
 
-#****************     GO 1.17   **********************************************************
-ENV GOLANG_17_VERSION="1.17.9"
-ENV GOLANG_17_DOWNLOAD_SHA256="44dcdcd4f0fa6f83c15ef70b31580f1e3f95895c2f11a00e36c440c3554b6ad5"
+#****************     GO 1.18   **********************************************************
+ENV GOLANG_18_VERSION="1.18.6"
+ENV GOLANG_18_DOWNLOAD_SHA256="838ffa94158125f16e4aa667ee4f6b499ea57e3e35a7e2517ad357ea06714691"
 
 RUN set -ex \
-    && wget -q "https://dl.google.com/go/go$GOLANG_17_VERSION.linux-arm64.tar.gz" -O /tmp/golang.tar.gz \
-    && echo "$GOLANG_17_DOWNLOAD_SHA256 /tmp/golang.tar.gz" | sha256sum -c - \
+    && wget -q "https://dl.google.com/go/go$GOLANG_18_VERSION.linux-arm64.tar.gz" -O /tmp/golang.tar.gz \
+    && echo "$GOLANG_18_DOWNLOAD_SHA256 /tmp/golang.tar.gz" | sha256sum -c - \
     && tar -xzf /tmp/golang.tar.gz -C /tmp \
-    && mv /tmp/go /usr/local/go17  \
-    && rm -fr /tmp/* /var/tmp/*
-
-#****************     GO 1.16   **********************************************************
-ENV GOLANG_16_VERSION="1.16.15"
-ENV GOLANG_16_DOWNLOAD_SHA256="c2f27f0ce5620a9bc2ff3446165d1974ef94e9b885ec12dbfa3c07e0e198b7ce"
-
-RUN set -ex \
-    && wget -q "https://dl.google.com/go/go$GOLANG_16_VERSION.linux-arm64.tar.gz" -O /tmp/golang.tar.gz \
-    && echo "$GOLANG_16_DOWNLOAD_SHA256 /tmp/golang.tar.gz" | sha256sum -c - \
-    && tar -xzf /tmp/golang.tar.gz -C /tmp \
-    && mv /tmp/go /usr/local/go16  \
+    && mv /tmp/go /usr/local/go18  \
     && rm -fr /tmp/* /var/tmp/*
 
 #****************      END GOLANG     ****************************************************
 
 #**************** RUST *****************************************************
+#****************   RUST 64          *****************************************************
+ENV RUST_64_VERSION="1.64.0"
+ENV RUST_64_DOWNLOAD_SHA256="7d8860572431bd4ee1b9cd0cd77cf7ff29fdd5b91ed7c92a820f872de6ced558"
+
+RUN set -ex \
+    && wget -q "https://static.rust-lang.org/dist/rust-${RUST_64_VERSION}-aarch64-unknown-linux-gnu.tar.gz" -O /tmp/rust.tar.gz \
+    && echo "$RUST_64_DOWNLOAD_SHA256 /tmp/rust.tar.gz" | sha256sum -c - \
+    && tar -xzf /tmp/rust.tar.gz -C /tmp \
+    && /tmp/rust-${RUST_64_VERSION}-aarch64-unknown-linux-gnu/install.sh --prefix=/usr/local/rust64 \
+    && rm -rf /tmp/* /var/tmp/*
+
+
+RUN ln -s /usr/local/rust64 /usr/local/rust
+ENV PATH="/usr/local/rust/bin:$PATH"
+
+#****************   RUST 63          *****************************************************
+ENV RUST_63_VERSION="1.63.0"
+ENV RUST_63_DOWNLOAD_SHA256="26745b57500da293a8147122a5998926301350a610c164f053107cbe026d3a51"
+
+RUN set -ex \
+    && wget -q "https://static.rust-lang.org/dist/rust-${RUST_63_VERSION}-aarch64-unknown-linux-gnu.tar.gz" -O /tmp/rust.tar.gz \
+    && echo "$RUST_63_DOWNLOAD_SHA256 /tmp/rust.tar.gz" | sha256sum -c - \
+    && tar -xzf /tmp/rust.tar.gz -C /tmp \
+    && /tmp/rust-${RUST_63_VERSION}-aarch64-unknown-linux-gnu/install.sh --prefix=/usr/local/rust63 \
+    && rm -rf /tmp/* /var/tmp/*
+
 #****************   RUST 62          *****************************************************
 ENV RUST_62_VERSION="1.62.1"
 ENV RUST_62_DOWNLOAD_SHA256="1311fa8204f895d054c23a3481de3b158a5cd3b3a6338761fee9cdf4dbf075a5"
@@ -201,33 +216,6 @@ RUN set -ex \
     && echo "$RUST_62_DOWNLOAD_SHA256 /tmp/rust.tar.gz" | sha256sum -c - \
     && tar -xzf /tmp/rust.tar.gz -C /tmp \
     && /tmp/rust-${RUST_62_VERSION}-aarch64-unknown-linux-gnu/install.sh --prefix=/usr/local/rust62 \
-    && rm -rf /tmp/* /var/tmp/*
-
-
-RUN ln -s /usr/local/rust62 /usr/local/rust
-ENV PATH="/usr/local/rust/bin:$PATH"
-
-#****************   RUST 61          *****************************************************
-ENV RUST_61_VERSION="1.61.0"
-ENV RUST_61_DOWNLOAD_SHA256="261cd47bc3c98c9f97b601d1ad2a7d9b33c9ea63c9a351119c2f6d4e82f5d436"
-
-RUN set -ex \
-    && wget -q "https://static.rust-lang.org/dist/rust-${RUST_61_VERSION}-aarch64-unknown-linux-gnu.tar.gz" -O /tmp/rust.tar.gz \
-    && echo "$RUST_61_DOWNLOAD_SHA256 /tmp/rust.tar.gz" | sha256sum -c - \
-    && tar -xzf /tmp/rust.tar.gz -C /tmp \
-    && /tmp/rust-${RUST_61_VERSION}-aarch64-unknown-linux-gnu/install.sh --prefix=/usr/local/rust61 \
-    && rm -rf /tmp/* /var/tmp/*
-
-
-#****************   RUST 60          *****************************************************
-ENV RUST_60_VERSION="1.60.0"
-ENV RUST_60_DOWNLOAD_SHA256="99c419c2f35d4324446481c39402c7baecd7a8baed7edca9f8d6bbd33c05550c"
-
-RUN set -ex \
-    && wget -q "https://static.rust-lang.org/dist/rust-${RUST_60_VERSION}-aarch64-unknown-linux-gnu.tar.gz" -O /tmp/rust.tar.gz \
-    && echo "$RUST_60_DOWNLOAD_SHA256 /tmp/rust.tar.gz" | sha256sum -c - \
-    && tar -xzf /tmp/rust.tar.gz -C /tmp \
-    && /tmp/rust-${RUST_60_VERSION}-aarch64-unknown-linux-gnu/install.sh --prefix=/usr/local/rust60 \
     && rm -rf /tmp/* /var/tmp/*
 
 #**************** END RUST *****************************************************

@@ -49,4 +49,14 @@ runtimes:
     versions:
       1.60:
         commands:
-          - echo "Using Rust 1.60"
+          - echo "Installing Rust version 1.60 ..."
+          - rm -rf /usr/local/rust
+          - ln -s /usr/local/rust60 /usr/local/rust
+      1.61:
+        commands:
+          - echo "Installing Rust version 1.61 ..."
+          - rm -rf /usr/local/rust
+          - ln -s /usr/local/rust61 /usr/local/rust
+      1.62:
+        commands:
+          - echo "Installing Rust version 1.62 ..."

@@ -192,14 +192,42 @@ RUN set -ex \
 #****************      END GOLANG     ****************************************************
 
 #**************** RUST *****************************************************
-ENV RUST_1_VERSION="1.60.0"
-ENV RUST_1_DOWNLOAD_SHA256="99c419c2f35d4324446481c39402c7baecd7a8baed7edca9f8d6bbd33c05550c"
+#****************   RUST 62          *****************************************************
+ENV RUST_62_VERSION="1.62.1"
+ENV RUST_62_DOWNLOAD_SHA256="1311fa8204f895d054c23a3481de3b158a5cd3b3a6338761fee9cdf4dbf075a5"
 
 RUN set -ex \
-    && wget -q "https://static.rust-lang.org/dist/rust-${RUST_1_VERSION}-aarch64-unknown-linux-gnu.tar.gz" -O /tmp/rust.tar.gz \
-    && echo "$RUST_1_DOWNLOAD_SHA256 /tmp/rust.tar.gz" | sha256sum -c - \
+    && wget -q "https://static.rust-lang.org/dist/rust-${RUST_62_VERSION}-aarch64-unknown-linux-gnu.tar.gz" -O /tmp/rust.tar.gz \
+    && echo "$RUST_62_DOWNLOAD_SHA256 /tmp/rust.tar.gz" | sha256sum -c - \
     && tar -xzf /tmp/rust.tar.gz -C /tmp \
-    && /tmp/rust-${RUST_1_VERSION}-aarch64-unknown-linux-gnu/install.sh --prefix=/usr \
+    && /tmp/rust-${RUST_62_VERSION}-aarch64-unknown-linux-gnu/install.sh --prefix=/usr/local/rust62 \
+    && rm -rf /tmp/* /var/tmp/*
+
+
+RUN ln -s /usr/local/rust62 /usr/local/rust
+ENV PATH="/usr/local/rust/bin:$PATH"
+
+#****************   RUST 61          *****************************************************
+ENV RUST_61_VERSION="1.61.0"
+ENV RUST_61_DOWNLOAD_SHA256="261cd47bc3c98c9f97b601d1ad2a7d9b33c9ea63c9a351119c2f6d4e82f5d436"
+
+RUN set -ex \
+    && wget -q "https://static.rust-lang.org/dist/rust-${RUST_61_VERSION}-aarch64-unknown-linux-gnu.tar.gz" -O /tmp/rust.tar.gz \
+    && echo "$RUST_61_DOWNLOAD_SHA256 /tmp/rust.tar.gz" | sha256sum -c - \
+    && tar -xzf /tmp/rust.tar.gz -C /tmp \
+    && /tmp/rust-${RUST_61_VERSION}-aarch64-unknown-linux-gnu/install.sh --prefix=/usr/local/rust61 \
+    && rm -rf /tmp/* /var/tmp/*
+
+
+#****************   RUST 60          *****************************************************
+ENV RUST_60_VERSION="1.60.0"
+ENV RUST_60_DOWNLOAD_SHA256="99c419c2f35d4324446481c39402c7baecd7a8baed7edca9f8d6bbd33c05550c"
+
+RUN set -ex \
+    && wget -q "https://static.rust-lang.org/dist/rust-${RUST_60_VERSION}-aarch64-unknown-linux-gnu.tar.gz" -O /tmp/rust.tar.gz \
+    && echo "$RUST_60_DOWNLOAD_SHA256 /tmp/rust.tar.gz" | sha256sum -c - \
+    && tar -xzf /tmp/rust.tar.gz -C /tmp \
+    && /tmp/rust-${RUST_60_VERSION}-aarch64-unknown-linux-gnu/install.sh --prefix=/usr/local/rust60 \
     && rm -rf /tmp/* /var/tmp/*
 
 #**************** END RUST *****************************************************
